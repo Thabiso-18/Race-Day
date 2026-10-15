@@ -70,6 +70,6 @@ public class RaceDayDbContext : DbContext
     private void SeedData(ModelBuilder modelBuilder)
     {
         
-        // Use RouteModel instead of Route in the route seed section.
+       
     }
 }
