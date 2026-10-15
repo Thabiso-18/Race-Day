@@ -69,7 +69,7 @@ public class RaceDayDbContext : DbContext
 
     private void SeedData(ModelBuilder modelBuilder)
     {
-        // Keep your existing SeedData method here.
+        
         // Use RouteModel instead of Route in the route seed section.
     }
 }
