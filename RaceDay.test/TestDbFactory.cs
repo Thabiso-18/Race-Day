@@ -11,7 +11,7 @@ public static class TestDbFactory
             .UseInMemoryDatabase(dbName)
             .Options;
 
-        var context = new RaceDayDbContext(options);
+        var context = new RaceDayDbContext;
         context.Database.EnsureCreated(); // runs seeding
         return context;
     }
