@@ -10,7 +10,7 @@ namespace RaceDay.test
         public void DbContext_CanBeCreated()
         {
             var options = new DbContextOptionsBuilder<RaceDayDbContext>()
-                .UseInMemoryDatabase("smoke_test")
+                .UseInMemoryDatabase
                 .Options;
 
             using var db = new RaceDayDbContext(options);
