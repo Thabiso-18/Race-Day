@@ -22,7 +22,7 @@
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
   </ItemGroup>
 
-  <!-- ✅ Correct path — points to Race-Day project in its own subfolder -->
+  
   <ItemGroup>
     <ProjectReference Include="..\Race-Day\Race-Day.csproj" />
   </ItemGroup>
