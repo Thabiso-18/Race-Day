@@ -74,7 +74,7 @@ public class EventsController : ControllerBase
         });
     }
 
-    /// <summary>Retrieves a specific event with full details.</summary>
+    
     [HttpGet("{eventId:int}")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(EventDto), StatusCodes.Status200OK)]
