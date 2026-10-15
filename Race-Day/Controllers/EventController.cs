@@ -22,7 +22,7 @@ public class EventsController : ControllerBase
 
     private int CurrentUserId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-    /// <summary>Retrieves a paginated list of events with optional filters.</summary>
+    
     [HttpGet]
     [AllowAnonymous]
     [ProducesResponseType(typeof(PagedResponseDto<EventDto>), StatusCodes.Status200OK)]
