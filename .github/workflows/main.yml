@@ -1,0 +1,54 @@
+name: RaceDay CI
+
+# ─────────────────────────────────────────────────────────────
+# Trigger: runs on every push to these branches AND every PR
+# ─────────────────────────────────────────────────────────────
+on:
+  push:
+    branches: [ main, develop, part2 ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # ───────────────────────────────────────────────────────────
+  # Job 1: Build the solution and run all unit tests
+  # ───────────────────────────────────────────────────────────
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Install .NET 8 SDK
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # 3. Restore NuGet packages
+      - name: Restore dependencies
+        run: dotnet restore Race-Day.sln
+
+      # 4. Build the entire solution in Release mode
+      - name: Build solution
+        run: dotnet build Race-Day.sln --no-restore --configuration Release
+
+      # 5. Run all xUnit tests
+      - name: Run unit tests
+        run: >
+          dotnet test RaceDay.test/RaceDay.test.csproj
+          --no-build
+          --configuration Release
+          --verbosity normal
+          --logger "trx;LogFileName=test-results.trx"
+
+      # 6. Upload the test report as a downloadable artifact
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/test-results.trx'
