@@ -1,0 +1,17 @@
+﻿[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+*.userosscache
+TestResults/
+*.trx
+*.coverage
+appsettings.local.json
+secrets.json
+*.mdf
+*.ldf
+Thumbs.db
+.DS_Store
