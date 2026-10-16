@@ -2,13 +2,13 @@
 
 on:
   push:
-    branches: [ main, develop, part2 ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
 
 jobs:
   build-and-test:
-    name: Build & Test
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -20,18 +20,22 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Show repository structure
+        run: |
+          echo "=== Root files ==="
+          ls -la
+          echo ""
+          echo "=== All .sln files ==="
+          find . -name "*.sln"
+          echo ""
+          echo "=== All .csproj files ==="
+          find . -name "*.csproj"
+
       - name: Restore dependencies
-        run: dotnet restore Race-Day.sln
+        run: dotnet restore
 
       - name: Build solution
-        run: dotnet build Race-Day.sln --no-restore --configuration Release
+        run: dotnet build --no-restore --configuration Release
 
       - name: Run unit tests
-        run: dotnet test RaceDay.test/RaceDay.test.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test-results.trx"
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: '**/test-results.trx'
+        run: dotnet test --no-build --configuration Release --verbosity normal
