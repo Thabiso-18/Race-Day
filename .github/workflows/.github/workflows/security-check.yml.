@@ -1,0 +1,81 @@
+
+name: Race-Day Security Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security:
+    name: Dependency and Configuration Security
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Find .NET project
+        shell: bash
+        run: |
+          PROJECT=$(find . -name '*.sln' -o -name '*.slnx' \
+            -o -name '*.csproj' \
+            | grep -v '/bin/' \
+            | grep -v '/obj/' \
+            | head -n 1)
+
+          if [ -z "$PROJECT" ]; then
+            echo "::error::No .NET project found."
+            exit 1
+          fi
+
+          echo "PROJECT=$PROJECT" >> "$GITHUB_ENV"
+          echo "Checking project: $PROJECT"
+
+      - name: Restore dependencies
+        run: dotnet restore "$PROJECT"
+
+      - name: Check for vulnerable NuGet packages
+        shell: bash
+        run: |
+          dotnet list "$PROJECT" package \
+            --vulnerable \
+            --include-transitive
+
+      - name: Check tracked configuration files
+        shell: bash
+        run: |
+          echo "Checking tracked configuration files..."
+
+          git ls-files | grep -E \
+            '(^|/)(appsettings[^/]*\.json|web\.config)$' \
+            || true
+
+          echo "Review configuration files to ensure secrets are not committed."
+
+      - name: Scan for committed secret patterns
+        shell: bash
+        run: |
+          if git grep -n -I -E \
+            '(Password|ClientSecret|ApiKey)[[:space:]]*=[[:space:]]*["\x27][^"\x27]{8,}' \
+            -- '*.cs' '*.json' '*.config' '*.yml' '*.yaml'; then
+            echo "::warning::Review the matches for hardcoded secrets."
+          else
+            echo "No matching hardcoded-secret patterns detected."
+          fi
+
+      - name: Security check summary
+        if: success()
+        run: echo "Security checks completed. Review all warnings."
