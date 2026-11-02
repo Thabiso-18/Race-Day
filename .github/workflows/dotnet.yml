@@ -18,6 +18,9 @@ jobs:
       with:
         dotnet-version: 8.0.x
         
+    - name: List files (Diagnostic)
+      run: ls -la
+      
     - name: Restore dependencies
       run: dotnet restore
       
