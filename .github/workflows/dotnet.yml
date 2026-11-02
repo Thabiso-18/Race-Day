@@ -18,14 +18,17 @@ jobs:
       with:
         dotnet-version: 8.0.x
         
-    - name: List files (Diagnostic)
-      run: ls -la
+    - name: Restore API
+      run: dotnet restore Race-Day/Race-Day.csproj
       
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Build API
+      run: dotnet build Race-Day/Race-Day.csproj --no-restore --configuration Release
       
-    - name: Build
-      run: dotnet build --no-restore --configuration Release
+    - name: Restore MVC
+      run: dotnet restore RaceDay.MVC/RaceDay.MVC.csproj
+      
+    - name: Build MVC
+      run: dotnet build RaceDay.MVC/RaceDay.MVC.csproj --no-restore --configuration Release
       
     - name: Test
-      run: dotnet test --no-build --configuration Release --verbosity normal
+      run: dotnet test RaceDay.test/RaceDay.test.csproj --no-build --configuration Release --verbosity normal
