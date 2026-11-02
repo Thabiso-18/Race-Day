@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RaceDay.API.Models;
@@ -30,6 +32,10 @@ public class Event
     [Required]
     [MaxLength(50)]
     public string Status { get; set; } = "Draft"; // Draft, Open, Closed, Completed
+
+    
+    public string? BannerImageUrl { get; set; } 
+   
 
     // Navigation properties
     [ForeignKey(nameof(OrganiserId))]

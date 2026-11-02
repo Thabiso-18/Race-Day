@@ -1,0 +1,44 @@
+﻿@model IEnumerable<RaceDay.MVC.Models.EventDto>
+
+@{
+    // If Model is null, replace it with an empty list
+    var events = Model ?? new List<RaceDay.MVC.Models.EventDto>();
+}
+
+<div class="text-center mb-5">
+    <h1 class="display-4 fw-bold">Upcoming Events</h1>
+    <p class="lead">Find your next race, walk, or cycle.</p>
+</div>
+
+@if (!events.Any())
+{
+    <div class="alert alert-info text-center">
+        No events found. Make sure the API is running and try again.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var ev in events)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    @if (!string.IsNullOrEmpty(ev.BannerImageUrl))
+                    {
+                        <img src="@ev.BannerImageUrl" class="card-img-top" alt="@ev.Name" style="height: 200px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <div class="bg-secondary text-white text-center py-5">No Image</div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">@ev.Name</h5>
+                        <p class="card-text text-muted">📍 @ev.Location</p>
+                        <p class="card-text">📅 @ev.EventDate.ToString("dd MMM yyyy")</p>
+                        <a asp-controller="Participant" asp-action="Details" asp-route-id="@ev.EventId" class="btn btn-primary w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

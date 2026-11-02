@@ -1,18 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RaceDay.API.Data;
 
-namespace RaceDay.Tests.Helpers;
-
-public static class TestDbFactory
+namespace RaceDay.test
 {
-    public static RaceDayDbContext Create(string dbName)
+    public static class TestDbFactory
     {
-        var options = new DbContextOptionsBuilder<RaceDayDbContext>()
-            .UseInMemoryDatabase(dbName)
-            .Options;
+        public static RaceDayDbContext Create(string dbName)
+        {
+            // 1. Create the options builder
+            var options = new DbContextOptionsBuilder<RaceDayDbContext>()
+                .UseInMemoryDatabase(databaseName: dbName)
+                .Options;
 
-        var context = new RaceDayDbContext;
-        context.Database.EnsureCreated(); // runs seeding
-        return context;
+            // 2. Return a new DbContext using those options
+            return new RaceDayDbContext(options);
+        }
     }
 }

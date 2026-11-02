@@ -1,0 +1,58 @@
+@model RaceDay.MVC.Models.CreateEventDto
+
+@{
+    ViewData["Title"] = "Create Event";
+}
+
+<div class="container mt-4">
+    <h2>Create New Event</h2>
+    <hr />
+    
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                
+                <!-- Hidden Status field required by the API -->
+                <input type="hidden" asp-for="Status" value="Open" />
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Event Name</label>
+                    <input asp-for="Name" class="form-control" />
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Location" class="form-label">Location</label>
+                    <input asp-for="Location" class="form-control" />
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="EventDate" class="form-label">Event Date</label>
+                    <input asp-for="EventDate" class="form-control" type="date" />
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="RegistrationDeadline" class="form-label">Registration Deadline</label>
+                    <input asp-for="RegistrationDeadline" class="form-control" type="date" />
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Event Banner Image</label>
+                    <input type="file" name="imageFile" class="form-control" accept="image/*" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Event</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

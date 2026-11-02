@@ -1,4 +1,7 @@
-﻿# 🏁 RaceDay — Event Management System
+﻿![.NET Build](https://github.com/YOUR_GITHUB_USERNAME/Race-Day/actions/workflows/dotnet.yml/badge.svg)
+
+
+# 🏁 RaceDay — Event Management System
 
 A full-stack event management platform for the South African road running, walking, and cycling community. 
 

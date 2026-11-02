@@ -1,0 +1,10 @@
+﻿
+@model IEnumerable<RaceDay.MVC.Models.EnrolmentDto>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.EventName</td>
+        <td>@item.CategoryName</td>
+        <td>@item.Status</td>
+    </tr>
+}
